@@ -1,12 +1,15 @@
-import { useState } from 'react';
-import PrivateRoutes from './PrivateRoutes';
 import PublicRoutes from './PublicRoutes';
 import useAuth from '../hooks/useAuth';
+import App from '../App';
 
 const Routes = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
-  return user ? <PrivateRoutes /> : <PublicRoutes />;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  return user ? <App /> : <PublicRoutes />;
 };
 
 export default Routes;

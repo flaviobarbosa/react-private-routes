@@ -1,12 +1,26 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const history = useHistory();
+
   const [user, setUser] = useState(null);
   const [token, setToken] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const user = localStorage.getItem('@app:user');
+    setTimeout(() => {
+      setUser(JSON.parse(user));
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   const signIn = async () => {
+    setLoading(true);
+
     const response = await new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -21,11 +35,17 @@ const AuthProvider = ({ children }) => {
 
     setUser(response.user);
     setToken(response.token);
+
+    localStorage.setItem('@app:user', JSON.stringify(response.user));
+
+    setLoading(false);
+
+    history.push('/');
   };
 
-  console.log(user);
-
-  return <AuthContext.Provider value={{ user, token, signIn }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, token, loading, signIn }}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

@@ -1,12 +1,13 @@
 import './App.css';
-import AuthProvider from './contexts/AuthContext';
-import Routes from './Routes/routes';
+import Navbar from './components/Navbar';
+import PrivateRoutes from './Routes/PrivateRoutes';
 
 function App() {
   return (
-    <AuthProvider>
-      <Routes />
-    </AuthProvider>
+    <div>
+      <Navbar />
+      <PrivateRoutes />
+    </div>
   );
 }
 

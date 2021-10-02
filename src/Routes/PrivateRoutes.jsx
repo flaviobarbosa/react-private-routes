@@ -6,7 +6,7 @@ import Home from '../pages/Home';
 const PrivateRoutes = () => {
   return (
     <Switch>
-      <Route path='/'>
+      <Route exact path='/'>
         <Home />
       </Route>
       <Route path='/dashboard' exact>
