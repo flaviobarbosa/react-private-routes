@@ -1,17 +1,18 @@
 import { createContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const history = useHistory();
 
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
+  const [user, setUser] = useLocalStorage('@app:user', null);
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const user = localStorage.getItem('@app:user');
     setTimeout(() => {
       setUser(JSON.parse(user));
       setLoading(false);
